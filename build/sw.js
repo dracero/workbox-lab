@@ -57,3 +57,16 @@ workbox.routing.registerRoute(
     ]
   })
 );
+
+workbox.routing.registerRoute(
+  /images/icon(.*) ,
+  workbox.strategies. StaleWhileRevalidate({
+    cacheName: 'icon-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 5,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+      })
+    ]
+  })
+);
