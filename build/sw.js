@@ -59,7 +59,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  /images/icon(.*) ,
+  /images/icon/(.*) ,
   workbox.strategies. StaleWhileRevalidate({
     cacheName: 'icon-cache',
     plugins: [
