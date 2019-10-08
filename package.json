@@ -6,17 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy": "copyfiles -u 1 src/**/**/* src/**/* src/* build",
-    "build": "npm run copy",
+    "build": "npm run copy && workbox injectManifest workbox-config.js",
     "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel-runtime": "^5.3.0",
+    "babel-loader": "^8.0.6",
     "express": "^4.16.4"
   },
   "devDependencies": {
     "copyfiles": "^1.2.0",
-    "workbox-cli": "^3.6.3"
+    "workbox-cli": "^3.5.0"
   }
 }
