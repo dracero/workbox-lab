@@ -38,7 +38,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  /images/icon/(.*) ,
+  /images/icon(.*)/,
   workbox.strategies. StaleWhileRevalidate({
     cacheName: 'icon-cache',
     plugins: [
@@ -50,4 +50,23 @@ workbox.routing.registerRoute(
   })
 );
 
-https://articulo.mercadolibre.com.ar/MLA-700654557-escritorio-haya-y-negro-muebles-para-oficina-003-astra-008-_JM?quantity=1&variation=30852098409
+const articleHandler = workbox.strategies.networkFirst({
+  cacheName: 'articles-cache',
+  plugins: [
+    new workbox.expiration.Plugin({
+      maxEntries: 50,
+    })
+  ]
+});
+
+workbox.routing.registerRoute(/(.*)article(.*)\.html/, args => {
+  return articleHandler.handle(args)
+  .then(response => {
+    if (!response) {
+      return caches.match('pages/offline.html');
+    } else if (response.status === 404) {
+      return caches.match('pages/404.html');
+    }
+    return response;
+  });
+});
