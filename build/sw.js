@@ -38,6 +38,14 @@ if (workbox) {
   {
     "url": "images/icon/icon.svg",
     "revision": "0d077eac3b5028d3543f7e35908d6ecb"
+  },
+  {
+    "url": "pages/offline.html",
+    "revision": "09b9feaee1fbd9d3f27253d24b7911c9"
+  },
+  {
+    "url": "pages/404.html",
+    "revision": "1a6cf0261a93d2c998c813d5588856bb"
   }
 ]);
 
