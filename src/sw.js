@@ -40,7 +40,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   /(.*)icon(.*)\.(?:png|gif|jpg|svg)/,
-  workbox.strategies.StaleWhileRevalidate({
+new workbox.strategies.StaleWhileRevalidate({
     cacheName: "icon-cache",
     plugins: [
       new workbox.expiration.Plugin({
@@ -71,7 +71,7 @@ workbox.routing.registerRoute(/(.*)article(.*)\.html/, args => {
   });
 });
 
-var war = workbox.routing.registerRoute(/(.*)post(.*)\.html/, args => {
+workbox.routing.registerRoute(/(.*)post(.*)\.html/, args => {
   return postHandler.handle(args).then(response => {
     if (!response) {
       return caches.match("pages/offline.html");

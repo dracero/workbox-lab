@@ -73,7 +73,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   /(.*)icon(.*)\.(?:png|gif|jpg|svg)/,
-  workbox.strategies.StaleWhileRevalidate({
+new workbox.strategies.StaleWhileRevalidate({
     cacheName: "icon-cache",
     plugins: [
       new workbox.expiration.Plugin({
@@ -104,3 +104,22 @@ workbox.routing.registerRoute(/(.*)article(.*)\.html/, args => {
   });
 });
 
+workbox.routing.registerRoute(/(.*)post(.*)\.html/, args => {
+  return postHandler.handle(args).then(response => {
+    if (!response) {
+      return caches.match("pages/offline.html");
+    } else if (response.status === 404) {
+      return caches.match("pages/404.html");
+    }
+    return response;
+  });
+});
+
+const postHandler = workbox.strategies.cacheFirst({
+  cacheName: "posts-cache",
+  plugins: [
+    new workbox.expiration.Plugin({
+      maxEntries: 50
+    })
+  ]
+});
