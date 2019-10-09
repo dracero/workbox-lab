@@ -13,7 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js');
+importScripts(
+  "https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js"
+);
 
 if (workbox) {
   console.log(`Yay! Workbox is loaded 🎉`);
@@ -36,6 +38,10 @@ if (workbox) {
     "revision": "9c3ec8d2a8a188bab9ddc212a64a0c1e"
   },
   {
+    "url": "images/icon/favicon.svg",
+    "revision": "0d077eac3b5028d3543f7e35908d6ecb"
+  },
+  {
     "url": "images/icon/icon.svg",
     "revision": "0d077eac3b5028d3543f7e35908d6ecb"
   },
@@ -48,7 +54,6 @@ if (workbox) {
     "revision": "1a6cf0261a93d2c998c813d5588856bb"
   }
 ]);
-
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
@@ -56,67 +61,46 @@ if (workbox) {
 workbox.routing.registerRoute(
   /(.*)articles(.*)\.(?:png|gif|jpg)/,
   workbox.strategies.cacheFirst({
-    cacheName: 'images-cache',
+    cacheName: "images-cache",
     plugins: [
       new workbox.expiration.Plugin({
         maxEntries: 50,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
       })
     ]
   })
 );
 
 workbox.routing.registerRoute(
-  /images/icon(.*)/,
-  workbox.strategies. StaleWhileRevalidate({
-    cacheName: 'icon-cache',
+  /(.*)icon(.*)\.(?:png|gif|jpg|svg)/,
+  workbox.strategies.StaleWhileRevalidate({
+    cacheName: "icon-cache",
     plugins: [
       new workbox.expiration.Plugin({
         maxEntries: 5,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
       })
     ]
   })
 );
 
 const articleHandler = workbox.strategies.networkFirst({
-  cacheName: 'articles-cache',
+  cacheName: "articles-cache",
   plugins: [
     new workbox.expiration.Plugin({
-      maxEntries: 50,
+      maxEntries: 50
     })
   ]
 });
 
 workbox.routing.registerRoute(/(.*)article(.*)\.html/, args => {
-  return articleHandler.handle(args)
-  .then(response => {
+  return articleHandler.handle(args).then(response => {
     if (!response) {
-      return caches.match('pages/offline.html');
+      return caches.match("pages/offline.html");
     } else if (response.status === 404) {
-      return caches.match('pages/404.html');
+      return caches.match("pages/404.html");
     }
     return response;
   });
 });
 
-workbox.routing.registerRoute(/pages/post(.*), args => {
-  return postHandler.handle(args)
-  .then(response => {
-    if (!response) {
-      return caches.match('pages/offline.html');
-    } else if (response.status === 404) {
-      return caches.match('pages/404.html');
-    }
-    return response;
-  });
-});
-
-const postHandler = workbox.strategies.cacheFirst({
-  cacheName: 'posts-cache',
-  plugins: [
-    new workbox.expiration.Plugin({
-      maxEntries: 50,
-    })
-  ]
-});
