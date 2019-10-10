@@ -27,7 +27,7 @@ if (workbox) {
   },
   {
     "url": "script.js",
-    "revision": "5d03d635a2c6b226f588cc54a7051f92"
+    "revision": "8bce6cf23ec5b281e24ee8571317b560"
   },
   {
     "url": "style/style.css",

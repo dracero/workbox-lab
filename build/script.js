@@ -1,6 +1,4 @@
 // Practical example
-var $ = require('jquery');
-
 fetch('https://api.nytimes.com/svc/movies/v2/critics/part-time.json?api-key=SUAr48VgLWG5WakojAVihj9zq6Q8fiQB')
   .then(response => response.json())
   .then(data => {
