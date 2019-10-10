@@ -1,6 +1,7 @@
 dependencies:
   babel-loader: 8.0.6
   express: 4.17.1
+  jquery: 3.4.1
 devDependencies:
   copyfiles: 1.2.0
   workbox-cli: 3.6.3
@@ -825,6 +826,10 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-O7Uw+w/zEWgbL6OcHbyACKSj0PkQeUgmehdoXVSxt92QFCq4+1390Rwh5moI2K/OgC7D8RHRZqHZxT2husMJHA==
+  /jquery/3.4.1:
+    dev: false
+    resolution:
+      integrity: sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
   /json5/1.0.1:
     dependencies:
       minimist: 1.2.0
@@ -1943,4 +1948,5 @@ specifiers:
   babel-loader: ^8.0.6
   copyfiles: ^1.2.0
   express: ^4.16.4
+  jquery: ^3.4.1
   workbox-cli: ^3.5.0
