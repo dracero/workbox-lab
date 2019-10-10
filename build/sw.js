@@ -22,89 +22,23 @@ if (workbox) {
 
   workbox.precaching.precacheAndRoute([
   {
-    "url": "style/main.css",
-    "revision": "628320e3f89c25f36472cda3e970e57d"
-  },
-  {
     "url": "index.html",
-    "revision": "17820577d9720fcd226317b36fb393d2"
+    "revision": "c4bc1f94eadd0a782c24f2c00ef7ac32"
   },
   {
-    "url": "js/animation.js",
-    "revision": "8952a6ec2786e6e8d62a7934bc7f1c1f"
+    "url": "script.js",
+    "revision": "5d03d635a2c6b226f588cc54a7051f92"
   },
   {
-    "url": "images/home/business.jpg",
-    "revision": "9c3ec8d2a8a188bab9ddc212a64a0c1e"
-  },
-  {
-    "url": "images/icon/favicon.svg",
-    "revision": "0d077eac3b5028d3543f7e35908d6ecb"
-  },
-  {
-    "url": "images/icon/icon.svg",
-    "revision": "0d077eac3b5028d3543f7e35908d6ecb"
-  },
-  {
-    "url": "pages/offline.html",
-    "revision": "09b9feaee1fbd9d3f27253d24b7911c9"
-  },
-  {
-    "url": "pages/404.html",
-    "revision": "1a6cf0261a93d2c998c813d5588856bb"
+    "url": "style/style.css",
+    "revision": "ca3c9231017b9ab49ff49fe717d9ea94"
   }
 ]);
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
 
-workbox.routing.registerRoute(
-  /(.*)articles(.*)\.(?:png|gif|jpg)/,
-  workbox.strategies.cacheFirst({
-    cacheName: "images-cache",
-    plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 50,
-        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
-      })
-    ]
-  })
-);
-
-workbox.routing.registerRoute(
-  /(.*)icon(.*)\.(?:png|gif|jpg|svg)/,
-new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "icon-cache",
-    plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 5,
-        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
-      })
-    ]
-  })
-);
-
-const articleHandler = workbox.strategies.networkFirst({
-  cacheName: "articles-cache",
-  plugins: [
-    new workbox.expiration.Plugin({
-      maxEntries: 50
-    })
-  ]
-});
-
-workbox.routing.registerRoute(/(.*)article(.*)\.html/, args => {
-  return articleHandler.handle(args).then(response => {
-    if (!response) {
-      return caches.match("pages/offline.html");
-    } else if (response.status === 404) {
-      return caches.match("pages/404.html");
-    }
-    return response;
-  });
-});
-
-workbox.routing.registerRoute(/(.*)post(.*)\.html/, args => {
+workbox.routing.registerRoute(/(.*)\.html/, args => {
   return postHandler.handle(args).then(response => {
     if (!response) {
       return caches.match("pages/offline.html");
